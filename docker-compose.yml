@@ -2,34 +2,38 @@ version: '3.1'
 
 services:
 
-  db:
+  mysql:
     image: mysql:5.7
+    container_name: mysql-blog
     command: --default-authentication-plugin=mysql_native_password
     restart: always
+    ports:
+      - "12300:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: jpress
-      MYSQL_DATABASE: jpress
-      MYSQL_USER: jpress
-      MYSQL_PASSWORD: jpress
+      MYSQL_ROOT_PASSWORD: 12123llc
+      MYSQL_DATABASE: blog
+      MYSQL_USER: llc
+      MYSQL_PASSWORD: 12123llc
     volumes:
       - "./docker_volumes/mysql:/var/lib/mysql"
 
   jpress:
     depends_on:
-      - db
+      - mysql
     links:
-      - db
+      - mysql
     image: fuhai/jpress:v5.1.0
+    container_name: blog
     ports:
-      - "8080:8080"
+      - "8081:8080"
     restart: always
     environment:
       TZ: Asia/Shanghai
-      JPRESS_DB_HOST: db
+      JPRESS_DB_HOST: mysql
       JPRESS_DB_PORT: 3306
-      JPRESS_DB_NAME: jpress
-      JPRESS_DB_USER: jpress
-      JPRESS_DB_PASSWORD: jpress
+      JPRESS_DB_NAME: blog
+      JPRESS_DB_USER: llc
+      JPRESS_DB_PASSWORD: 12123llc
     volumes:
       - "./docker_volumes/webapp/attachment:/opt/jpress/webapp/attachment"
       - "./docker_volumes/webapp/addons:/opt/jpress/webapp/addons"
